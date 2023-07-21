@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  replaces links to twitter.com with nitter.net
 // @match        *
 // @grant        none
+// @updateURL    https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
 // ==/UserScript==
 
 (function() {
