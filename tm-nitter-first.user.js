@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
