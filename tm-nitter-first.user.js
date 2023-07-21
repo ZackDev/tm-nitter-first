@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://violentmonkey.github.io/
-// @version      0.7
+// @version      0.8
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
@@ -14,6 +14,6 @@
     // Your code here...
     Array.from(document.getElementsByTagName('a')).filter(e => e.href.includes('twitter.com')).forEach((e) => {
         e.href = e.href.replace('twitter.com', 'nitter.net');
-        e.innerText = e.innerText.replace('twitter.com', 'nitter.net');
+        e.innerText = '<s>' + e.innerText + '</s>' + ' ' + e.innerText.replace('twitter.com', 'nitter.net');
     });
 })();
