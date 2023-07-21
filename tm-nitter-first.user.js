@@ -3,7 +3,7 @@
 // @namespace    https://tampermonkey.net/
 // @version      0.3
 // @description  replaces links to twitter.com with nitter.net
-// @match        *
+// @match        *://*/*
 // @grant        none
 // @downloadURL  https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
 // @updateURL    https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
