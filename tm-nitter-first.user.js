@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://violentmonkey.github.io/
-// @version      0.15
+// @version      0.16
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
