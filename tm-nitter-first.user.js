@@ -46,7 +46,7 @@
             let rootNode = document.getRootNode();
             if (rootNode.nodeName === '#document') {
                 for (let firstLevelNode of rootNode.childNodes) {
-                    if (firstLevelNode.nodeName.toUpperCase() === 'HTML') {
+                    if (firstLevelNode.nodeName === 'HTML') {
                         for (let secondLevelNode of firstLevelNode.childNodes) {
                             if (secondLevelNode.nodeName.toUpperCase() === 'BODY') {
                                 /*
