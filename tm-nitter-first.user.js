@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://violentmonkey.github.io/
-// @version      0.13
+// @version      0.14
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
@@ -46,9 +46,9 @@
             let rootNode = document.getRootNode();
             if (rootNode.nodeName === '#document') {
                 for (let firstLevelNode of rootNode.childNodes) {
-                    if (firstLevelNode.nodeName === 'HTML') {
+                    if (firstLevelNode.nodeName.toUpperCase() === 'HTML') {
                         for (let secondLevelNode of firstLevelNode.childNodes) {
-                            if (secondLevelNode.nodeName === 'BODY') {
+                            if (secondLevelNode.nodeName.toUpperCase() === 'BODY') {
                                 /*
                                 at this point, document->html->body (with potential anchors) exists
                                 - change already existing anchors
