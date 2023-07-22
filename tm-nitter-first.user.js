@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://violentmonkey.github.io/
-// @version      0.12
+// @version      0.13
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
@@ -23,8 +23,8 @@
             switch (mr.type) {
                 case 'childList': {
                     let nodes = mr.addedNodes.entries();
-                    for (node of nodes) {
-                        for (entry of node) {
+                    for (let node of nodes) {
+                        for (let entry of node) {
                             changeLink(entry);
                         }
                     }
@@ -45,9 +45,9 @@
         if (document.readyState === 'complete') {
             let rootNode = document.getRootNode();
             if (rootNode.nodeName === '#document') {
-                for (firstLevelNode of rootNode.childNodes) {
+                for (let firstLevelNode of rootNode.childNodes) {
                     if (firstLevelNode.nodeName === 'HTML') {
-                        for (secondLevelNode of firstLevelNode.childNodes) {
+                        for (let secondLevelNode of firstLevelNode.childNodes) {
                             if (secondLevelNode.nodeName === 'BODY') {
                                 /*
                                 at this point, document->html->body (with potential anchors) exists
