@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://violentmonkey.github.io/
-// @version      0.11
+// @version      0.12
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
@@ -11,14 +11,63 @@
 
 (function() {
     'use strict';
-    // Your code here...
-    Array.from(document.getElementsByTagName('a')).filter(e => e.href.includes('twitter.com')).forEach((e) => {
-        e.href = e.href.replace('twitter.com', 'nitter.net');
-        let it = e.innerText;
-        let ih = e.innerHTML;
-        e.innerText = it.replace('twitter.com', 'nitter.net');
-        if (ih.includes('twitter.com')) {
-            e.innerHTML = '<s>' + ih + '</s>' + ' ' + ih.replace('twitter.com', 'nitter.net');
-        };
-    });
+    const changeLink = (node) => {
+        if ((typeof node.href !== 'undefined') && node.href.includes('twitter.com')) {
+            node.href = node.href.replace('twitter.com', 'nitter.net');
+        }
+    };
+    
+    const cb = (ml, ob) => {
+        console.log(ml);
+        ml.forEach(mr => {
+            switch (mr.type) {
+                case 'childList': {
+                    let nodes = mr.addedNodes.entries();
+                    for (node of nodes) {
+                        for (entry of node) {
+                            changeLink(entry);
+                        }
+                    }
+                }
+                break;
+                case 'attributes': {
+                    changeLink(mr.target);
+                }
+                break;
+            }
+        });
+    };
+
+    /*
+    check if the document's root node has body as sibling
+    */
+    document.onreadystatechange = () => {
+        if (document.readyState === 'complete') {
+            let rootNode = document.getRootNode();
+            if (rootNode.nodeName === '#document') {
+                for (firstLevelNode of rootNode.childNodes) {
+                    if (firstLevelNode.nodeName === 'HTML') {
+                        for (secondLevelNode of firstLevelNode.childNodes) {
+                            if (secondLevelNode.nodeName === 'BODY') {
+                                /*
+                                at this point, document->html->body (with potential anchors) exists
+                                - change already existing anchors
+                                - attach observer to body node
+                                */
+                                Array.from(document.getElementsByTagName('a')).filter(e => e.href.includes('twitter.com')).forEach((anchor) => {
+                                    changeLink(anchor);
+                                });
+                                
+                                let mo = new MutationObserver(cb);
+                                let config = { attributes: true, attributeList: ['href'], childList: true, subtree: true };
+                                mo.observe(secondLevelNode, config);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
 })();
