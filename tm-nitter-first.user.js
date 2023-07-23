@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://violentmonkey.github.io/
-// @version      0.17
+// @version      0.18
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
@@ -23,12 +23,11 @@
         }
     };
 
-    const cb = (ml, ob) => {
-        console.log(ml);
-        ml.forEach(mr => {
-            switch (mr.type) {
+    const cb = (mutationList, observer) => {
+        mutationList.forEach(mutationRecord => {
+            switch (mutationRecord.type) {
                 case 'childList':
-                    let nodes = mr.addedNodes.entries();
+                    let nodes = mutationRecord.addedNodes.entries();
                     for (let node of nodes) {
                         for (let entry of node) {
                             changeLink(entry);
@@ -37,7 +36,7 @@
                     break;
 
                 case 'attributes':
-                    changeLink(mr.target);
+                    changeLink(mutationRecord.target);
                     break;
             }
         });
@@ -68,9 +67,9 @@
                                     changeLink(anchor);
                                 });
 
-                                let mo = new MutationObserver(cb);
+                                let mutationObserver = new MutationObserver(cb);
                                 let config = { attributes: true, attributeList: ['href'], childList: true, subtree: true };
-                                mo.observe(secondLevelNode, config);
+                                mutationObserver.observe(secondLevelNode, config);
                                 break;
                             }
                         }
