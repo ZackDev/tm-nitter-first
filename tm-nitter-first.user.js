@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://violentmonkey.github.io/
-// @version      0.19
+// @version      0.20
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
@@ -15,8 +15,8 @@
         if (node.nodeName) {
             switch (node.nodeName.toUpperCase()) {
                 case 'A':
-                    if (node.href && node.href.startsWith('https://twitter.com')) {
-                        node.href = node.href.replace('https://twitter.com', 'https://nitter.net');
+                    if (node.href && node.href.startsWith('https://twitter.com/')) {
+                        node.href = node.href.replace('https://twitter.com/', 'https://nitter.net/');
                     }
                     break;
             }
