@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            nitter-first
 // @namespace       https://violentmonkey.github.io/
-// @version         0.21
+// @version         0.22
 // @description     replaces links to twitter.com with nitter.net
 // @match           *://*/*
 // @exclude-match   *://twitter.com/*
@@ -15,6 +15,10 @@
     const changeLink = (node) => {
         if (node.nodeName) {
             switch (node.nodeName.toUpperCase()) {
+                /*
+                NOTE: check for the tag/name of the HTML-Element if the MutationOberver's attributeList changes here
+                - example: src attribute of img tags
+                */
                 case 'A':
                     if (node.href && node.href.startsWith('https://twitter.com/')) {
                         node.href = node.href.replace('https://twitter.com/', 'https://nitter.net/');
@@ -67,7 +71,7 @@
                                 Array.from(document.getElementsByTagName('a')).filter(a => a.href && a.href.includes('twitter.com')).forEach((anchor) => {
                                     changeLink(anchor);
                                 });
-
+                                
                                 let mutationObserver = new MutationObserver(mutationCallback);
                                 let config = { attributes: true, attributeList: ['href'], childList: true, subtree: true };
                                 mutationObserver.observe(secondLevelNode, config);
