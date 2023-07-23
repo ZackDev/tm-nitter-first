@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nitter-first
 // @namespace    https://violentmonkey.github.io/
-// @version      0.18
+// @version      0.19
 // @description  replaces links to twitter.com with nitter.net
 // @match        *://*/*
 // @grant        none
@@ -15,15 +15,15 @@
         if (node.nodeName) {
             switch (node.nodeName.toUpperCase()) {
                 case 'A':
-                    if (node.href && node.href.includes('twitter.com')) {
-                        node.href = node.href.replace('twitter.com', 'nitter.net');
+                    if (node.href && node.href.startsWith('https://twitter.com')) {
+                        node.href = node.href.replace('https://twitter.com', 'https://nitter.net');
                     }
                     break;
             }
         }
     };
 
-    const cb = (mutationList, observer) => {
+    const mutationCallback = (mutationList, observer) => {
         mutationList.forEach(mutationRecord => {
             switch (mutationRecord.type) {
                 case 'childList':
@@ -67,7 +67,7 @@
                                     changeLink(anchor);
                                 });
 
-                                let mutationObserver = new MutationObserver(cb);
+                                let mutationObserver = new MutationObserver(mutationCallback);
                                 let config = { attributes: true, attributeList: ['href'], childList: true, subtree: true };
                                 mutationObserver.observe(secondLevelNode, config);
                                 break;
@@ -78,4 +78,5 @@
             }
         }
     }
+
 })();
