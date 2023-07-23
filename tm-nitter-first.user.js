@@ -1,12 +1,13 @@
 // ==UserScript==
-// @name         nitter-first
-// @namespace    https://violentmonkey.github.io/
-// @version      0.20
-// @description  replaces links to twitter.com with nitter.net
-// @match        *://*/*
-// @grant        none
-// @downloadURL  https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
-// @updateURL    https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
+// @name            nitter-first
+// @namespace       https://violentmonkey.github.io/
+// @version         0.21
+// @description     replaces links to twitter.com with nitter.net
+// @match           *://*/*
+// @exclude-match   *://twitter.com/*
+// @grant           none
+// @downloadURL     https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
+// @updateURL       https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
 // ==/UserScript==
 
 (function () {
