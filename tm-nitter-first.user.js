@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name            nitter-first
 // @namespace       https://violentmonkey.github.io/
-// @version         0.22
+// @version         0.23
 // @description     replaces links to twitter.com with nitter.net
-// @match           *://*/*
-// @exclude-match   *://twitter.com/*
+// @match           https://*/*
+// @exclude-match   https://twitter.com/*
 // @grant           none
 // @downloadURL     https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
 // @updateURL       https://github.com/ZackDev/tm-nitter-first/raw/main/tm-nitter-first.user.js
@@ -20,6 +20,12 @@
                 - example: src attribute of img tags
                 */
                 case 'A':
+                    /*
+                    NOTE: 'a' tags come from three sources.
+                    - document.getElementsByTagName(...) - href attribute not guaranteed
+                    - MutationObserver childList - href attribute not guaranteed
+                    - MutationObserver attributes & attributeFilter - href attribute guaranteed
+                    */
                     if (node.href && node.href.startsWith('https://twitter.com/')) {
                         node.href = node.href.replace('https://twitter.com/', 'https://nitter.net/');
                     }
