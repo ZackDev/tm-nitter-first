@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            nitter-first
 // @namespace       https://violentmonkey.github.io/
-// @version         0.25
+// @version         0.26
 // @description     replaces links to twitter.com with nitter.net
 // @match           https://*/*
 // @exclude-match   https://twitter.com/*
@@ -35,7 +35,10 @@
                     if (node.src && node.src.startsWith('https://pbs.twimg.com/media/')) {
                         const pathName = new URL(node.src).pathname;
                         const imgFormat = new URLSearchParams(node.src).get('format');
-                        const nitterImgUrl = 'https://nitter.net/pic/orig/' + pathName + '.' + imgFormat;
+                        var nitterImgUrl = 'https://nitter.net/pic/orig/' + pathName;
+                        if (imgFormat) {
+                            nitterImgUrl += '.' + imgFormat;
+                        }
                         node.src = nitterImgUrl;
                     }
                     break;
