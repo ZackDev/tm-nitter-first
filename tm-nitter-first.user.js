@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            nitter-first
 // @namespace       https://violentmonkey.github.io/
-// @version         0.23
+// @version         0.24
 // @description     replaces links to twitter.com with nitter.net
 // @match           https://*/*
 // @exclude-match   https://twitter.com/*
@@ -28,6 +28,15 @@
                     */
                     if (node.href && node.href.startsWith('https://twitter.com/')) {
                         node.href = node.href.replace('https://twitter.com/', 'https://nitter.net/');
+                    }
+                    break;
+                
+                case 'IMG':
+                    if (node.src && node.src.startsWith('https://pbs.twimg.com/media/')) {
+                        const pathName = new URL(node.src).pathname;
+                        const imgFormat = new URLSearchParams(src).get('format');
+                        const nitterImgUrl = 'https://nitter.net/pic/orig/' + pathName + '.' + imgFormat;
+                        node.src = nitterImgUrl;
                     }
                     break;
             }
@@ -79,7 +88,7 @@
                                 });
                                 
                                 let mutationObserver = new MutationObserver(mutationCallback);
-                                let config = { attributes: true, attributeList: ['href'], childList: true, subtree: true };
+                                let config = { attributes: true, attributeList: ['href', 'src'], childList: true, subtree: true };
                                 mutationObserver.observe(secondLevelNode, config);
                                 break;
                             }
