@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            nitter-first
 // @namespace       https://violentmonkey.github.io/
-// @version         0.26
+// @version         0.27
 // @description     replaces links to twitter.com with nitter.net
 // @match           https://*/*
 // @exclude-match   https://twitter.com/*
@@ -12,6 +12,8 @@
 
 (function () {
     'use strict';
+    const nodesOfInterest = ['A', 'IMG'];
+
     const changeLink = (node) => {
         if (node.nodeName) {
             switch (node.nodeName.toUpperCase()) {
@@ -30,7 +32,7 @@
                         node.href = node.href.replace('https://twitter.com/', 'https://nitter.net/');
                     }
                     break;
-                
+
                 case 'IMG':
                     if (node.src && node.src.startsWith('https://pbs.twimg.com/media/')) {
                         const pathName = new URL(node.src).pathname;
@@ -50,12 +52,9 @@
         mutationList.forEach(mutationRecord => {
             switch (mutationRecord.type) {
                 case 'childList':
-                    let nodes = mutationRecord.addedNodes.entries();
-                    for (let node of nodes) {
-                        for (let entry of node) {
-                            changeLink(entry);
-                        }
-                    }
+                    mutationRecord.addedNodes.forEach((node) => {
+                        nodeWalker(node, changeLink);
+                    });
                     break;
 
                 case 'attributes':
@@ -64,6 +63,19 @@
             }
         });
     };
+
+    const nodeWalker = (node, callback) => {
+        if (node.nodeName in nodesOfInterest) {
+            if (typeof callback === 'function') {
+                callback(node);
+            }
+        }
+        if (node.hasChildNodes()) {
+            node.childNodes.forEach((childNode) => {
+                nodeWalker(childNode, callback);
+            });
+        }
+    }
 
     /*
     check if the document's root node has body as one of its siblings
@@ -89,7 +101,7 @@
                                 Array.from(document.getElementsByTagName('a')).filter(a => a.href && a.href.includes('twitter.com')).forEach((anchor) => {
                                     changeLink(anchor);
                                 });
-                                
+
                                 let mutationObserver = new MutationObserver(mutationCallback);
                                 let config = { attributes: true, attributeList: ['href', 'src'], childList: true, subtree: true };
                                 mutationObserver.observe(secondLevelNode, config);
