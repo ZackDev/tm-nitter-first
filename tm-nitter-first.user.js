@@ -80,7 +80,7 @@
     /*
     check if the document's root node has body as one of its siblings
     */
-    document.onreadystatechange = () => {
+    document.addEventListener('readystatechange', () => {
         if (document.readyState === 'complete') {
             let rootNode = document.getRootNode();
             if (rootNode.nodeName && rootNode.nodeName === '#document') {
@@ -112,6 +112,6 @@
                 }
             }
         }
-    }
+    })
 
 })();
