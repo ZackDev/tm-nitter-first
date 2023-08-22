@@ -93,12 +93,15 @@
                             if (secondLevelNode.nodeName && secondLevelNode.nodeName.toUpperCase() === 'BODY') {
                                 /*
                                 at this point, document->html->body (with potential anchors) exists
-                                - change already existing anchors
+                                - change already existing anchor href and src
                                 - attach observer to body node
                                 */
-                                Array.from(document.getElementsByTagName('a')).filter(a => a.href && a.href.includes('twitter.com')).forEach((anchor) => {
-                                    changeLink(anchor);
-                                });
+                                
+                                nodesOfInterest.forEach(nodeName => {
+                                    document.getElementsByTagName(nodeName.toLowerCase()).forEach((elem) => {
+                                        changeLink(elem);
+                                    });
+                                })
 
                                 let mutationObserver = new MutationObserver(mutationCallback);
                                 let config = { attributes: true, attributeList: ['href', 'src'], childList: true, subtree: true };
