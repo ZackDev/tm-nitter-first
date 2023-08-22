@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            nitter-first
 // @namespace       https://violentmonkey.github.io/
-// @version         0.31
+// @version         0.32
 // @description     replaces links to twitter.com with nitter.net
 // @match           https://*/*
 // @exclude-match   https://twitter.com/*
@@ -65,10 +65,8 @@
     };
 
     const nodeWalker = (node, callback) => {
-        if (nodesOfInterest.indexOf(node.nodeName) > -1) {
-            if (typeof callback === 'function') {
-                callback(node);
-            }
+        if (nodesOfInterest.includes(node.nodeName) && typeof callback === 'function') {
+            callback(node);
         }
         if (node.hasChildNodes()) {
             node.childNodes.forEach((childNode) => {
