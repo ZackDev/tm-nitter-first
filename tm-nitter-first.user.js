@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            nitter-first
 // @namespace       https://violentmonkey.github.io/
-// @version         0.33
+// @version         0.34
 // @description     replaces links to twitter.com with nitter.net
 // @match           https://*/*
 // @exclude-match   https://twitter.com/*
@@ -98,7 +98,7 @@
                                 */
                                 
                                 nodesOfInterest.forEach(nodeName => {
-                                    document.getElementsByTagName(nodeName.toLowerCase()).forEach((elem) => {
+                                    Array.from(document.getElementsByTagName(nodeName.toLowerCase())).forEach((elem) => {
                                         changeLink(elem);
                                     });
                                 })
