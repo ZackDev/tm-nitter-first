@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            nitter-first
 // @namespace       https://violentmonkey.github.io/
-// @version         0.39
+// @version         0.40
 // @description     replaces links to twitter.com with nitter.net
 // @match           https://*/*
 // @exclude-match   https://twitter.com/*
@@ -32,6 +32,9 @@
                     if (node.href) {
                         if (node.href.startsWith('twitter.com/')) {
                             node.href = node.href.replace('twitter.com/', 'https://nitter.net/')
+                        }
+                        else if (node.href.startsWith('http://twitter.com/')) {
+                            node.href = node.href.replace('http://twitter.com/', 'https://nitter.net/')
                         }
                         else if (node.href.startsWith('https://twitter.com/')) {
                             node.href = node.href.replace('https://twitter.com/', 'https://nitter.net/')
