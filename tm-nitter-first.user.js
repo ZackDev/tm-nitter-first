@@ -42,6 +42,9 @@
                         else if (node.href.startsWith('x.com/')) {
                             node.href = node.href.replace('x.com/', 'https://nitter.net/')
                         }
+                        else if (node.href.startsWith('http://x.com/')) {
+                            node.href = node.href.replace('http://x.com/', 'https://nitter.net/')
+                        }
                         else if (node.href.startsWith('https://x.com/')) {
                             node.href = node.href.replace('https://x.com/', 'https://nitter.net/')
                         }
